@@ -1,5 +1,24 @@
-import pandas as pd
+'''
+Avalanche
+├── Benchmarks
+│   ├── Classic
+│   ├── Datasets
+│   ├── Generators
+│   ├── Scenarios
+│   └── Utils
+├── Evaluation
+│   ├── Metrics
+│   ├── Tensorboard
+|   └── Utils
+├── Training
+│   ├── Strategies
+│   ├── Plugins
+|   └── Utils
+├── Models
+└── Loggers
+'''
 import numpy as np
+import pickle
 
 import torch
 from torch.nn import BCELoss
@@ -14,8 +33,9 @@ from avalanche.training import Naive
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # CL Benchmark Creation
-data = pd.read_csv('FDS/dataset/creditcard.csv')
-### data.shape : (283726, 31) --> 절반은 141863
+with open( "creditcard", "rb" ) as file:
+    data = pickle.load(file)
+
 features = data.drop(['Class'], axis=1).values
 labels = np.array(data.pop('Class'))
 
